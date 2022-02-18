@@ -3,6 +3,7 @@ package com.books.integrate.spring.react.controller;
 import java.util.*;
 
 import com.books.integrate.spring.react.model.Tutorial;
+import com.books.integrate.spring.react.services.TutorialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMessage;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class TutorialController {
 
 	@Autowired
 	TutorialRepository tutorialRepository;
+
+	@Autowired
+	TutorialService tutorialService;
 
 	@GetMapping("/tutorials")
 	public ResponseEntity<List<Tutorial>> getAllTutorials(@RequestParam(required = false) String title) {
@@ -119,6 +123,16 @@ public class TutorialController {
 			return new ResponseEntity<>(tutorials, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+
+	@DeleteMapping("/tutorials/title")
+	public ResponseEntity<HttpStatus> deleteByTitle (@RequestParam("titulo") String titulo) {
+		boolean ok = this.tutorialService.eliminarTutorialXTitulo(titulo);
+		if(ok) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 
