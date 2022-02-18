@@ -90,6 +90,24 @@ public class TutorialController {
 		}
 	}
 
+	@PutMapping("/tutorials/title")
+	public ResponseEntity<Tutorial> updateTutorialByTitle(@RequestParam("titulo") String titulo, @RequestBody Tutorial tutorial) {
+		List<Tutorial> actualizarTutorial = tutorialRepository.findByTitleContaining(titulo) ;
+
+		if (actualizarTutorial.isEmpty()){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			Tutorial _tutorial = actualizarTutorial.get(0);
+
+			_tutorial.setTitle(tutorial.getTitle());
+			_tutorial.setDescription(tutorial.getDescription());
+			_tutorial.setPublished(tutorial.isPublished());
+
+			return new ResponseEntity<>(tutorialRepository.save(_tutorial), HttpStatus.OK);
+		}
+	}
+
+
 //HttpStatus
 	@DeleteMapping("/tutorials/{id}")
 	public ResponseEntity<String> deleteTutorial(@PathVariable("id") long id) {
