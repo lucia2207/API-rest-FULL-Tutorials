@@ -19,14 +19,25 @@ public class Tutorial {
 	@Column(name = "published")
 	private boolean published;
 
+	@Column(name = "price")
+	private Integer price;
 	public Tutorial() {
 
 	}
 
-	public Tutorial(String title, String description, boolean published) {
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public Tutorial(String title, String description, boolean published, Integer price) {
 		this.title = title;
 		this.description = description;
 		this.published = published;
+		this.price = price;
 	}
 
 	public long getId() {
